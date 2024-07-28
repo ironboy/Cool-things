@@ -19,7 +19,7 @@ Documentation of the individual libraries can be found here:
 *   [React Easier](https://react-easier.nodehill.com)
 
 ### Look at the code to learn!
-Don't forget to look at the source code of this example (and the [Products](/products) section) - it shows you a lot of basics and nifty tricks when using the libraries together!
+Don't forget to [look at the source code](https://github.com/ironboy/Cool-things) of this example (and the [Products](/products) section) - it shows you a lot of basics and nifty tricks when using the libraries together!
 
 ### Some other libraries as well...
 Although the example mainly focuses on the libraries mentioned above we also use:
