@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+.navbar-brand,
+footer .copy {
+  font-family: 'Alfa Slab One';
+}
+
+h3 {
+  font-size: 150%
+}
+
+h1,
+h2,
+h3 {
+  margin-top: 2rem;
+}
+
+.nav-link.active {
+  font-weight: bold;
+}

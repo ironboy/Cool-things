@@ -1,0 +1,14 @@
+img.start,
+img.about-us {
+  object-fit: cover;
+  aspect-ratio: 16/9;
+  width: 100%;
+}
+
+img.about-us {
+  object-position: 50% 80%
+}
+
+img.start {
+  object-position: 50% 0%
+}

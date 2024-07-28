@@ -1,0 +1,23 @@
+.card {
+  cursor: pointer;
+}
+
+.card-img-top {
+  object-fit: cover;
+  aspect-ratio: 20/9;
+}
+
+.card-body {
+  padding: 0;
+}
+
+.card-title {
+  font-size: 150%;
+  margin-top: 20px;
+}
+
+.detail-img {
+  object-fit: cover;
+  aspect-ratio: 16/9;
+  width: 100%;
+}

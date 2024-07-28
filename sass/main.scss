@@ -1,0 +1,16 @@
+// Include any default variable overrides for Bootstrap here
+@import './bootstrap-overrides.scss';
+
+// Include Bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+// Include your own CSS
+@import './fonts.scss';
+@import './sticky-footer';
+@import './images';
+@import './products';
+@import './forms';
+
+body {
+  background-color: #f9f6f6;
+}
