@@ -28,5 +28,3 @@ Although the example mainly focuses on the libraries mentioned above we also use
 * A [SQLite](https://www.sqlite.org) database for our products and the [better-sqlite3](https://github.com/WiseLibs/better-sqlite3/blob/master/docs/api.md)-driver for Node.js.
 * If you want to take a look at the database - open it with an editor such as [SQLiteStudio](https://sqlitestudio.pl/).
 * The npm modules [concurrently](https://github.com/open-cli-tools/concurrently#readme) (to start the backend and the Vite dev server in tandem) and [nodemon](https://nodemon.io) (to watch and reload on changes to the backend).
-
-test
