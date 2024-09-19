@@ -17,7 +17,8 @@ export default function App() {
     return () => clearTimeout(timeout);
   }, [pathname]);
 
-  // load the products and save in a state called 'main'
+  // load the products and the info markdown
+  //  and save in a state called 'main'
   const main = useStates('main', {
     products: useFetch('/api/products'),
     info: useFetch('/api/README.md', 'text'),
