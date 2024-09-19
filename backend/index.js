@@ -12,7 +12,7 @@ const devMode = process.argv[2] === 'dev';
 const PORT = 5001;
 
 // if a process is running on our port - kill it
-await killPortProcess(PORT);
+devMode && await killPortProcess(PORT);
 
 // the absolute path to this directory
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
