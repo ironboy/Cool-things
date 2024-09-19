@@ -28,3 +28,9 @@ Although the example mainly focuses on the libraries mentioned above we also use
 * A [SQLite](https://www.sqlite.org) database for our products and the [better-sqlite3](https://github.com/WiseLibs/better-sqlite3/blob/master/docs/api.md)-driver for Node.js.
 * If you want to take a look at the database - open it with an editor such as [SQLiteStudio](https://sqlitestudio.pl/).
 * The npm modules [concurrently](https://github.com/open-cli-tools/concurrently#readme) (to start the backend and the Vite dev server in tandem) and [nodemon](https://nodemon.io) (to watch and reload on changes to the backend).
+
+### About the SQLite database
+* If no db exists on the path **db/live/db.sqlite3** the backend will copy the db from **db/template/db/db.sqlite3**.
+  * *Why?* A sqlite database is stored in ONE file. This file get changed even if you don't write to the db (because updates on indexes etc that are done automatically). So it's a good idea to store a copy of the db in your git repo, but a bad idea to store the 'running db' in your git repo.
+* To view the db from inside VSCode install the VSCode extension [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer).
+* To work with the db in a full graphical user interface use [SQLiteStudio](https://sqlitestudio.pl).
