@@ -3,16 +3,12 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
 import betterSqlite from 'better-sqlite3';
-import { killPortProcess } from 'kill-port-process';
 
 // if we are in developer mode
 const devMode = process.argv[2] === 'dev';
 
 // port to start web server on
 const PORT = 5001;
-
-// if a process is running on our port - kill it
-devMode && await killPortProcess(PORT);
 
 // the absolute path to this directory
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
