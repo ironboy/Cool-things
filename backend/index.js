@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
 import betterSqlite from 'better-sqlite3';
+import session from 'express-session';
 import logger from './logger.js';
 
 // port to start web server on
@@ -21,11 +22,21 @@ app.listen(PORT, () => console.log(
   `Listening on http://localhost:${PORT}`
 ));
 
-// we need this middleware in order to read request bodies
+// Make it possible to read request bodies
 app.use(express.json({ limit: '10mb' }));
 
+// Add express-session functionality to our web server
+app.use(session({
+  secret: 'sdfkjadfadjle15', // hard to guess secret
+  resave: false,
+  name: 'amazingCookie',
+  cookie: { secure: 'auto' },
+  // set the cookie even if no session data (login info etc)
+  saveUninitialized: true
+}));
+
 // add the logger
-logger(app);
+logger(app, fs, path, __dirname);
 
 // serve the content from the frontend folder
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
