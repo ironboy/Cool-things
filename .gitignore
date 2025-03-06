@@ -1,6 +1,3 @@
-# Database
-db/live/db.sqlite3
-
 # Logs
 logs
 *.log

@@ -4,30 +4,21 @@ import { fileURLToPath } from 'url';
 import express from 'express';
 import betterSqlite from 'better-sqlite3';
 
-// if we are in developer mode
-const devMode = process.argv[2] === 'dev';
-
 // port to start web server on
 const PORT = 5001;
 
 // the absolute path to this directory
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-// copy the db template to db/live if no database there
-// (since we .git-ignore the live db to avoid unnecessary commits)
-let dbTemplatePath = path.join(__dirname, '..', 'db', 'template', 'db.sqlite3');
-let dbLivePath = path.join(__dirname, '..', 'db', 'live', 'db.sqlite3');
-!fs.existsSync(dbLivePath) && fs.copyFileSync(dbTemplatePath, dbLivePath);
-
 // connect to the database
+let dbLivePath = path.join(__dirname, '..', 'db', 'live', 'db.sqlite3');
 const db = betterSqlite(dbLivePath);
 
-// start a web server, serving the content of the dist folder
+// start a web server, serving the content of the frontend folder
 const app = express();
-app.use(express.static('dist'));
+app.use(express.static('frontend'));
 app.listen(PORT, () => console.log(
-  devMode ? `Backend listening on port ${PORT}` :
-    `Backend listening on http://localhost:${PORT}`
+  `Listening on http://localhost:${PORT}`
 ));
 
 // we need this middleware in order to read request bodies
@@ -50,14 +41,9 @@ app.post('/api/products', (req, res) => {
     INSERT INTO products(name,description,price$) 
     VALUES(:name,:description,:price$)
   `).run(body).lastInsertRowid;
-  // write the image to public/productImages
+  // upload image to product images folder
   fs.writeFileSync(
-    path.join(__dirname, '..', 'public', 'productImages', insertId + '.jpg'),
-    imgData
-  );
-  // if the dist folder exists, write the image there too
-  fs.existsSync(path.join(__dirname, '..', 'dist')) && fs.writeFileSync(
-    path.join(__dirname, '..', 'dist', 'productImages', insertId + '.jpg'),
+    path.join(__dirname, '..', 'frontend', 'productImages', insertId + '.jpg'),
     imgData
   );
   // return the new list of products
@@ -71,6 +57,6 @@ app.get('/api/README.md', (req, res) =>
 // serve the index.html page on 404:s 
 // - so that React / SPA frontend routing works on hard reloads
 app.get('*', (req, res) => {
-  const indexFile = path.join(__dirname, '..', 'dist', 'index.html');
-  fs.existsSync(indexFile) ? res.sendFile(indexFile) : res.json('No dist folder');
+  const indexFile = path.join(__dirname, '..', 'frontend', 'index.html');
+  res.sendFile(indexFile);
 });

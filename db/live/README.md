@@ -1,1 +1,0 @@
-Keep this file so that make the db/live folder exists in git!
