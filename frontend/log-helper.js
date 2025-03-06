@@ -16,5 +16,6 @@ window.onpopstate = tellBackendToLog;
 
 // Tell the backend to log
 function tellBackendToLog() {
-  console.log(location.pathname);
+  // console.log(location.pathname);
+  fetch('/api/frontend-route-change/' + encodeURIComponent(location.pathname));
 }

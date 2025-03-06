@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
 import betterSqlite from 'better-sqlite3';
+import logger from './logger.js';
 
 // port to start web server on
 const PORT = 5001;
@@ -14,15 +15,20 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 let dbLivePath = path.join(__dirname, '..', 'db', 'live', 'db.sqlite3');
 const db = betterSqlite(dbLivePath);
 
-// start a web server, serving the content of the frontend folder
+// start the web server
 const app = express();
-app.use(express.static('frontend'));
 app.listen(PORT, () => console.log(
   `Listening on http://localhost:${PORT}`
 ));
 
 // we need this middleware in order to read request bodies
 app.use(express.json({ limit: '10mb' }));
+
+// add the logger
+logger(app);
+
+// serve the content from the frontend folder
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
 // serve the products from our SQLite database
 app.get('/api/products', (req, res) => {
