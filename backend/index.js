@@ -7,7 +7,7 @@ import session from 'express-session';
 import logger from './logger.js';
 
 // port to start web server on
-const PORT = 5001;
+const PORT = 5111;
 
 // the absolute path to this directory
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
