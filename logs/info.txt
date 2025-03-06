@@ -1,0 +1,2 @@
+Log files will be written by the backend to this folder.
+A new log file will be created each time you restart the backend.
