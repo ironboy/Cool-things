@@ -35,7 +35,7 @@ export default function logger(app, fs, path, __dirname) {
       // the request body (normally only present on POST and PUT routes)
       requestBody: request.body,
       // request headers (SPOOFABLE - CAN BE SET BY A HACKER)
-      // includes the referrer -> the  page that sent us here  // SPOOFABLE
+      // includes the referrer -> the  page that sent us here
       // includes the user agent -> information about the browser
       requestHeaders: request.headers,
       // the session id
