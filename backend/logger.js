@@ -1,7 +1,13 @@
 export default function logger(app, fs, path, __dirname) {
 
   // open a connection/stream to our log file
-  let logStream = fs.createWriteStream(path.join(__dirname, '..', 'log.json'), { flags: 'a' });
+  // note: create a new log file every time the backend is restarted
+  let logFilePath, count = 1;
+  while (!logFilePath || fs.existsSync(logFilePath)) {
+    logFilePath = path.join(__dirname, '..', 'logs', `log-${count++}.json`);
+  }
+  console.log('Logging to', logFilePath)
+  let logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
 
   // if behind a reverse-proxy 
   // then trust info from the proxy (about protocol)
@@ -64,10 +70,11 @@ export default function logger(app, fs, path, __dirname) {
       data.responseStatusCode = response.statusCode;
       data.responseHeaders = JSON.parse(JSON.stringify(response.getHeaders()));
 
-      // write the info to our log file
+      // write the data about the request to our log file
+      logStream.write(JSON.stringify(data, '', '  ') + ',\n\n');
 
-
-      // console.log(data);
+      // log directly to the terminal as well (for educational purposes)
+      console.log(data, '\n');
     });
 
     // let the server - the rest of our backend code - handle the request
@@ -78,8 +85,6 @@ export default function logger(app, fs, path, __dirname) {
   app.get('/api/frontend-route-change/:route', (request, response) => {
     response.json({ ok: true });
   });
-
-  // write entry to our log file
 
 }
 
