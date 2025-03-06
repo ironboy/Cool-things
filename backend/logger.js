@@ -21,27 +21,25 @@ export default function logger(app, fs, path, __dirname) {
     let timeRequestWasMade = Date.now();
 
     // collect data to log about the request
-    // SPOOFABLE in comments below means "can be modified by a hacker"
     let data = {
       // when the request was mad
       requestTime: now(),
-      // the request url
-      url: request.url,
-      // the request method
-      requestMethod: request.method,
-      // the referrer -> the  page that sent us here  // SPOOFABLE
-      referrer: request.header('referrer'),
-      // the user-agent - information about the specific browser vendor and version
-      // (a lot of lies - but each browser has its own signature) // SPOOFABLE
-      userAgent: request.header('user-agent'),
       // ip number
       // note: x-forwared-fro used behind reverse-proxies (like Nginx)
       // ::1 -> IP6 equivalent of 127.0.0.1
       ipNumber: request.headers['x-forwarded-for'] || request.socket.remoteAddress,
+      // the request url
+      url: request.url,
+      // the request method
+      requestMethod: request.method,
       // the request body (normally only present on POST and PUT routes)
       requestBody: request.body,
+      // request headers (SPOOFABLE - CAN BE SET BY A HACKER)
+      // includes the referrer -> the  page that sent us here  // SPOOFABLE
+      // includes the user agent -> information about the browser
+      requestHeaders: request.headers,
       // the session id
-      // (helps us differentiate users on some IP) // SPOOFABLE (BUT HARD TO DO)
+      // (helps us differentiate users on some IP)
       sessionId: request.session.id
     };
 
@@ -65,10 +63,10 @@ export default function logger(app, fs, path, __dirname) {
     // so we can add som info about the response too
     // status code, response headers etc
     response.on('finish', () => {
+      data.responseHeaders = JSON.parse(JSON.stringify(response.getHeaders()));
+      data.responseStatusCode = response.statusCode;
       data.responseTime = now();
       data.responseTimeTakenMs = Date.now() - timeRequestWasMade;
-      data.responseStatusCode = response.statusCode;
-      data.responseHeaders = JSON.parse(JSON.stringify(response.getHeaders()));
 
       // write the data about the request to our log file
       logStream.write(JSON.stringify(data, '', '  ') + ',\n\n');
