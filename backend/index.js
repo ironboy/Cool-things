@@ -28,8 +28,9 @@ const app = express();
 // simulate Apache/PHP behavior of running php files when you goto their url
 // but for JS-files
 app.use(async (req, res, next) => {
-  let a = path.join(__dirname, '..', 'public', req.url);
-  if (a.endsWith('.js') && fs.existsSync(a)) {
+  let a = path.join(__dirname, '..', 'dist', req.url);
+  console.log(a);
+  if (a.endsWith('.js') && a.includes('productImages') && fs.existsSync(a)) {
     let oldLog = console.log;
     let output = [];
     console.log = (...args) => output.push(args);
