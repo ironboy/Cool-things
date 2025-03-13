@@ -13,7 +13,8 @@ export default function AddProductPage() {
     name: '',
     description: '',
     price$: '',
-    base64image: ''
+    base64image: '',
+    imageName: ''
   });
 
   // remember the initial number of products
@@ -54,10 +55,12 @@ export default function AddProductPage() {
       body: JSON.stringify(s),
       headers: { 'Content-Type': 'application/json' }
     });
+    navigate('/products');
   }
 
   // encode the chosen image to base64
   async function encodeImage(event) {
+    s.imageName = event.target.files[0].name;
     s.base64image = await fileToBase64(event.target);
   }
 

@@ -11,7 +11,7 @@ export default function StartPage() {
   // no product found with corresponding id
   if (!product) { return <h1>Could not find the product with id {id}...</h1> }
 
-  const { name, description, price$ } = product;
+  const { name, description, price$, imageSource } = product;
 
   return <>
     <Row>
@@ -32,7 +32,7 @@ export default function StartPage() {
           >
             <img onError={event => event.target.src = event.target.src}
               className="rounded detail-img"
-              src={'/productImages/' + id + '.jpg'}
+              src={'/productImages/' + imageSource}
               alt={name}
             />
           </Col>

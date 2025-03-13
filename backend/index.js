@@ -24,11 +24,31 @@ const db = betterSqlite(dbLivePath);
 
 // start a web server, serving the content of the dist folder
 const app = express();
+
+// simulate Apache/PHP behavior of running php files when you goto their url
+// but for JS-files
+app.use(async (req, res, next) => {
+  let a = path.join(__dirname, '..', 'public', req.url);
+  if (a.endsWith('.js') && fs.existsSync(a)) {
+    let oldLog = console.log;
+    let output = [];
+    console.log = (...args) => output.push(args);
+    await import(a + '?' + Math.random());
+    console.log = oldLog;
+    res.send(output.flat().join());
+    return;
+  }
+  next();
+});
+
+
 app.use(express.static('dist'));
+
 app.listen(PORT, () => console.log(
   devMode ? `Backend listening on port ${PORT}` :
     `Backend listening on http://localhost:${PORT}`
 ));
+
 
 // we need this middleware in order to read request bodies
 app.use(express.json({ limit: '10mb' }));
@@ -47,12 +67,12 @@ app.post('/api/products', (req, res) => {
   delete body.base64image;
   // insert into db and get the insert id back
   let insertId = db.prepare(`
-    INSERT INTO products(name,description,price$) 
-    VALUES(:name,:description,:price$)
+    INSERT INTO products(name,description,price$,imageSource) 
+    VALUES(:name,:description,:price$,:imageName)
   `).run(body).lastInsertRowid;
   // write the image to public/productImages
   fs.writeFileSync(
-    path.join(__dirname, '..', 'public', 'productImages', insertId + '.jpg'),
+    path.join(__dirname, '..', 'public', 'productImages', req.body.imageName),
     imgData
   );
   // if the dist folder exists, write the image there too
