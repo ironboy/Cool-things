@@ -8,7 +8,7 @@ export default defineConfig(revc_({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5001',
+        target: 'http://localhost:3952',
         changeOrigin: true,
         secure: false
       }

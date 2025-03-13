@@ -8,7 +8,7 @@ import betterSqlite from 'better-sqlite3';
 const devMode = process.argv[2] === 'dev';
 
 // port to start web server on
-const PORT = 5001;
+const PORT = 3952;
 
 // the absolute path to this directory
 const __dirname = path.dirname(fileURLToPath(import.meta.url))

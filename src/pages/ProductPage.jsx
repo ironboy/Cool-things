@@ -10,10 +10,10 @@ export default function ProductPage() {
     </Row>
     <Row>
       <Row>
-        {products.map(({ id, name, price$ }) => <>
+        {products.map(({ id, name, price$, imageSource }) => <>
           <Col xs={12} md={6} lg={4}>
             <Card className="mb-3 p-3" onClick={() => navigate('/product/' + id)}>
-              <Card.Img variant="top" src={'/productImages/' + id + '.jpg'} alt={name} />
+              <Card.Img variant="top" src={'/productImages/' + imageSource} alt={name} />
               <Card.Body className="text-center">
                 <Card.Title className="text-center">{name}</Card.Title>
                 <Button onClick={event => buy(id, event)}>Buy {numTo$(price$)}</Button>
