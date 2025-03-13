@@ -71,14 +71,9 @@ app.post('/api/products', (req, res) => {
     INSERT INTO products(name,description,price$,imageSource) 
     VALUES(:name,:description,:price$,:imageName)
   `).run(body).lastInsertRowid;
-  // write the image to public/productImages
-  fs.writeFileSync(
-    path.join(__dirname, '..', 'public', 'productImages', req.body.imageName),
-    imgData
-  );
   // if the dist folder exists, write the image there too
-  fs.existsSync(path.join(__dirname, '..', 'dist')) && fs.writeFileSync(
-    path.join(__dirname, '..', 'dist', 'productImages', insertId + '.jpg'),
+  fs.writeFileSync(
+    path.join(__dirname, '..', 'dist', 'productImages', req.body.imageName),
     imgData
   );
   // return the new list of products
