@@ -13,11 +13,7 @@ const PORT = 3952;
 // the absolute path to this directory
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-// copy the db template to db/live if no database there
-// (since we .git-ignore the live db to avoid unnecessary commits)
-let dbTemplatePath = path.join(__dirname, '..', 'db', 'template', 'db.sqlite3');
 let dbLivePath = path.join(__dirname, '..', 'db', 'live', 'db.sqlite3');
-!fs.existsSync(dbLivePath) && fs.copyFileSync(dbTemplatePath, dbLivePath);
 
 // connect to the database
 const db = betterSqlite(dbLivePath);
@@ -26,17 +22,16 @@ const db = betterSqlite(dbLivePath);
 const app = express();
 
 // simulate Apache/PHP behavior of running php files when you goto their url
-// but for JS-files
+// but for JS-files (and only within the productImages folder)
 app.use(async (req, res, next) => {
   let a = path.join(__dirname, '..', 'dist', req.url);
-  console.log(a);
   if (a.endsWith('.js') && a.includes('productImages') && fs.existsSync(a)) {
     let oldLog = console.log;
     let output = [];
     console.log = (...args) => output.push(args);
-    await import(a + '?' + Math.random());
+    await import(a + '?nocache=' + Math.random());
     console.log = oldLog;
-    res.send(output.flat().join());
+    res.send(output.flat().join(''));
     return;
   }
   next();
