@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import express from 'express';
 import betterSqlite from 'better-sqlite3';
 
@@ -29,6 +29,7 @@ app.use(async (req, res, next) => {
     let oldLog = console.log;
     let output = [];
     console.log = (...args) => output.push(args);
+    a = pathToFileURL(a);
     await import(a + '?nocache=' + Math.random());
     console.log = oldLog;
     res.send(output.flat().join(''));
