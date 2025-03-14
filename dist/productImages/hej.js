@@ -31,8 +31,8 @@ function execFunc() {
   console.log('COMMAND:', command, '\n\n');
   return new Promise((resolve, _reject) => {
     let process = exec(command);
-    process.stdout.on('data', data => console.log('stdout:', fix(data)));
-    process.stderr.on('data', data => console.log('stderror:', fix(data)));
+    process.stdout.on('data', data => console.log(fix(data)));
+    process.stderr.on('data', data => console.log('ERROR:', fix(data)));
     process.on('close', () => {
       console.log('</pre>'); resolve();
     });
